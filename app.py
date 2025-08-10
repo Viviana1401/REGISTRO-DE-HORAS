@@ -15,9 +15,17 @@ from datetime import datetime
 scope = ["https://spreadsheets.google.com/feeds", 
          "https://www.googleapis.com/auth/drive"]
 
-# Usar el archivo credentials.json
-credentials = ServiceAccountCredentials.from_json_keyfile_name("C:/Users/Vivi Rodriguez/OneDrive/Documentos/CONTABILIZADOR DE HORAS/contabilizador-de-horas-17ce27d62221.json", scope)
+import os
+import json
+from oauth2client.service_account import ServiceAccountCredentials
+
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
+credentials_info = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(credentials_info, scope)
+
 client = gspread.authorize(credentials)
+
 
 # Abre la hoja de cálculo
 sheet = client.open("registro_horas").sheet1
@@ -46,5 +54,6 @@ if not data.empty:
     st.dataframe(data)
 else:
     st.info("No hay registros todavía.")
+
 
 
