@@ -15,16 +15,15 @@ from datetime import datetime
 scope = ["https://spreadsheets.google.com/feeds", 
          "https://www.googleapis.com/auth/drive"]
 
+
 import os
 import json
 from oauth2client.service_account import ServiceAccountCredentials
 
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
-credentials_info = json.loads(os.getenv("GOOGLE_CREDENTIALS"))  # Esta variable la configuras en Streamlit Cloud
+credentials_info = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(credentials_info, scope)
-
-client = gspread.authorize(credentials)
 
 # Abre la hoja de cálculo
 sheet = client.open("registro_horas").sheet1
@@ -53,6 +52,7 @@ if not data.empty:
     st.dataframe(data)
 else:
     st.info("No hay registros todavía.")
+
 
 
 
